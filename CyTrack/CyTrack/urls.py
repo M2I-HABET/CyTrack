@@ -19,7 +19,10 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^predict/', include('CyPredict.urls')),
+    url(r'^CyPredict/', include('CyPredict.urls')),
+    url(r'^cypredict/', include('CyPredict.urls')),
+    url(r'^CyTrack/', include('CyTracking.urls')),
+    url(r'^cytrack/', include('CyTracking.urls')),
     url(r'^$', include('CyHome.urls')),
 
 ]
