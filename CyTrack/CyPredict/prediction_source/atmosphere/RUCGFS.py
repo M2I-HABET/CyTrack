@@ -54,8 +54,9 @@ class RUCGFS:
             net = self._download(startTime, modelTime, rlat, rlon)
             
         if net is None:
-            return local        else:
-            return net
+            return local
+        else:
+            return net
     #NOT FINISHED	
     def _download(self, time, modelTime, lat, lon):
         
@@ -63,7 +64,7 @@ class RUCGFS:
         if debug: print(address)
         cwd = os.getcwd()
         if debug: print(cwd)
-        file=cwd+"\\wind\\gfs_" + str(int(lat*10)) + "_" + str(int(lon*10)) + "_" + str(int(time)) + "_" + str(modelTime) + ".gsd"
+        file=cwd+"\\wind\\gfs_" + str(int(lat*10)/10.0) + "_" + str(int(lon*10)/10.0) + "_" + str(int(time)) + "_" + str(modelTime) + ".gsd"
         if debug: print(file)
         if debug: print("")
         if debug: print("did it print")

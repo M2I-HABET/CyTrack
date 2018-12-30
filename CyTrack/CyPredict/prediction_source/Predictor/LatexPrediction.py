@@ -6,7 +6,6 @@ from Map import MapPoint
 #from copy import deepcopy
 from atmosphere.RUCGFS import RUCGFS 
 from atmosphere.GSDParser import GSDParser
-from PIL.PcdImagePlugin import PcdImageFile
 
 import geopy as geopy
 from geopy.distance import VincentyDistance
@@ -99,7 +98,7 @@ class LatexHAB(object):
         
         
         wind = RUC.getAtmosphere(self.startTime, int(self.startLat*10)/10.0, int(self.startLon*10)/10.0);
-        
+        print(wind)
         for i in range(0,len(self.balloonData)-1):
             bDat=self.balloonData[i];
             if bDat[0]==self.balloonMass/1000:
@@ -117,6 +116,9 @@ class LatexHAB(object):
         atmo = GSD.parseAtmosphere(wind,False);
         
         if atmo == None:
+            return None
+        if atmo == 'invalid':
+            print("NO DATA USA FUCKED OFF")
             return None
      
         curAscending = self.isAscending

@@ -31,7 +31,8 @@ class GSDParser:
             running=True
             while (line != "" and line.strip()!="" ):
 
-                    
+                if "lapse in appropriation" in line:
+                    raise Exception("USA got no money")
                 if debug: print(line)
                 if line == "":
                     break
@@ -130,6 +131,7 @@ class GSDParser:
                 line = opened.readline()
         except:
             traceback.print_exc()
+            return "invalid"
         if debug: print('DONE')
         return profile
     
