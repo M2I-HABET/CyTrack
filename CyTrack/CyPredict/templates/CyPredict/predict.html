@@ -2,8 +2,11 @@
 
 {% block content %}
 {% load staticfiles %}
-
-<div id="cesiumContainer"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm" id="cesiumContainer"></div>
+    </div>
+</div>
   <script>
     
  
@@ -53,9 +56,7 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
     shouldAnimate : false
 });
 
-viewer.dataSources.add(Cesium.CzmlDataSource.load(czml)).then(function(ds) {
-    viewer.trackedEntity = ds.entities.getById('path');
-});
+viewer.dataSources.add(Cesium.CzmlDataSource.load(czml))
 
   </script>
 

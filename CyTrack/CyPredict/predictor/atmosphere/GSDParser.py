@@ -31,7 +31,6 @@ class GSDParser:
             opened=open(file,'r')
 
             lines = list(opened)
-            running=True
             for line in lines:
 
                 if "lapse in appropriation" in line:

@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from CyPredict.predictor.Predictor.LatexPrediction import LatexHAB
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required
 def maps(request):
     tStep = 15
     pre = LatexHAB(tStep)

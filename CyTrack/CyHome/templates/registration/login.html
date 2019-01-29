@@ -1,12 +1,31 @@
-{% extends 'info/header.html' %}
+{% extends 'template.html' %}
 
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-auto align-self-center">
+
+        <!-- Default form login -->
+        <form class="text-center border border-light p-5" method="post">
+            <p class="h4 mb-4">Sign in</p>
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <!-- Sign in button -->
+            <button class="btn btn-info btn-block my-4 red darken-4" type="submit">Sign in</button>
+
+            <!-- Register -->
+            <p>Not a member?
+                <a href="">Register</a>
+            </p>
+
+
+        </form>
+<!-- Default form login -->
+        </div>
+    </div>
+</div>
 {% endblock %}
