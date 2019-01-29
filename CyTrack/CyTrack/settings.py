@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'cytrack',
         'USER': 'cytrack',
-        'PASSWORD': '',
+        'PASSWORD': 'cyclone',
         'HOST': 'localhost',
         'PORT': '',
     }

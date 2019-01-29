@@ -2,10 +2,9 @@ import os
 import datetime
 from datetime import datetime 
 import math 
-from Map import MapPoint
 #from copy import deepcopy
-from atmosphere.RUCGFS import RUCGFS 
-from atmosphere.GSDParser import GSDParser
+from CyPredict.predictor.atmosphere.RUCGFS import RUCGFS 
+from CyPredict.predictor.atmosphere.GSDParser import GSDParser
 
 import geopy as geopy
 from geopy.distance import VincentyDistance
@@ -66,18 +65,20 @@ class LatexHAB(object):
     def toString(self):
         return self.balloonName + ": " + self.balloonLift + "kg neck lift"
     
-    def setValues(self,time,lat,lon,altitude,mass,lift,pArea,pcd,bmass,bcd):
+    def setValues(self,year,month,day,hour,minute,lat,lon,altitude,mass,lift,pArea,pcd,bmass,bcd):
         
         '''
         time is in the form of 'Mar 9, 1997 13:45:00 UTC'
         '''
-        dt = DateTime(time)
-        self.realDate = DateTime(time)
+        self.timeDic = {
+            "year":year,
+            "month":month,
+            "day":day,
+            "hour":hour,
+            "minute":minute
+        }
         self.parachuteDrag=pcd
         self.parachuteArea=pArea
-        
-        self.startTime= int(dt.millis());
-        self.startTime=self.startTime/1000
         
         self.startLat=lat
         self.startLon=lon
@@ -92,14 +93,14 @@ class LatexHAB(object):
     
     def runPrediction(self): #Returns a MapPath
         path = 0.0 #Should equal a mappath
-        
+        cesiumDat = []
         historical = False
         
         RUC=RUCGFS()
         
         
-        wind = RUC.getAtmosphere(self.realDate, int(self.startLat*10)/10.0, int(self.startLon*10)/10.0);
-        print(wind)
+        wind = RUC.getAtmosphere(self.timeDic, int(self.startLat*10)/10.0, int(self.startLon*10)/10.0);
+
         for i in range(0,len(self.balloonData)-1):
             bDat=self.balloonData[i];
             if bDat[0]==self.balloonMass/1000:
@@ -193,14 +194,11 @@ class LatexHAB(object):
             cLon = destination.longitude;
             if debug: print('lat:'+str(cLat))
             if debug: print('lon:'+str(cLon))
-            if cesium : print(str((accenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+','+str(int(cAlt))+',')
+            
+            if cesium:
+                cesiumDat.append(str((accenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+','+str(int(cAlt))+',')
             if not cesium : print(str(cLat)+','+str(cLon))
-            #Store
-            #path.add(cLat, cLon, cAlt, self.startTime + Math.round(eTime));
-        
-        #path.addMarker(MapPoint(cLat, cLon, cAlt, self.startTime + round(eTime), "Burst"));
-        #self.burst = MapPoint(cLat, cLon, cAlt, self.startTime + round(eTime), "Burst");
-        #Calculate descent
+            
         
         while cAlt > self.groundLevel:
             decenttimes+=1
@@ -235,19 +233,20 @@ class LatexHAB(object):
             if debug: print('range:'+str(self.range))
             if debug: print('clat:'+str(cLat))
             if debug: print('clon:'+str(cLon))
-            if cesium : print(str((accenttimes+decenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+','+str(int(cAlt))+',')
+            if cesium : cesiumDat.append(str((accenttimes+decenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+','+str(int(cAlt))+',')
             if not cesium : print(str(cLat)+','+str(cLon))
             #Store
             #path.add(cLat, cLon, cAlt, self.self.startTime + math.round(eTime));
             
         #landing = new MapPoint(cLat, cLon, cAlt, self.startTime + Math.round(eTime), "Burst");
         times=accenttimes+decenttimes
-        print("burst: "+str(self.burst))
-        print("range: "+str(self.range))
-        print('Times: '+str(times))
-        print('AccentTimes: '+str(accenttimes))
-        print('DecentTimes: '+str(decenttimes))
-        return path;
+        #print("burst: "+str(self.burst))
+        #print("range: "+str(self.range))
+        #print('Times: '+str(times))
+        #print('AccentTimes: '+str(accenttimes))
+        #print('DecentTimes: '+str(decenttimes))
+        del atmo
+        return cesiumDat;
 
 
     def getBurst(self): # Returns a MapPoint
@@ -310,9 +309,7 @@ class LatexHAB(object):
         
         return ahash;
     
-    def getStart(self):
-        return MapPoint(self.startLat, self.startLon, self.startAlt, self.startTime);
-        
+    
     def getTypeName(self):
         return self.ballonName
     

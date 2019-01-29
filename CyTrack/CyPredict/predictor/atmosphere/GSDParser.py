@@ -3,10 +3,11 @@ Created on Jan 21, 2017
 
 @author: adapted by DGXU
 '''
-from atmosphere.AtmosphereProfile import AtmosphereProfile
+from CyPredict.predictor.atmosphere.AtmosphereProfile import AtmosphereProfile
 import calendar
 import datetime
 import traceback
+import time
 debug=False
 
 # A class to parse NOAA GSD formatted soundings.
@@ -15,6 +16,7 @@ class GSDParser:
     # Parse the given file and return a profile.
     # @param isHistorical put true
     def parseAtmosphere(self, file, isHistorical):
+        firstTime = True
         line = ""
         conversion = 0.514444444
         hour, day, year = 0, 0, 0
@@ -25,11 +27,12 @@ class GSDParser:
             if debug: print(file)
             if debug: print("That is the file name")
             #with open(file, 'r') as opened:
+            time.sleep(1)
             opened=open(file,'r')
 
-            line = opened.readline()
+            lines = list(opened)
             running=True
-            while (line != "" and line.strip()!="" ):
+            for line in lines:
 
                 if "lapse in appropriation" in line:
                     raise Exception("USA got no money")
@@ -116,23 +119,24 @@ class GSDParser:
                         if p == 99999 or h == 99999 or t == 99999 or dp == 99999 or dir == 99999 or spd == 99999:
                             break
                         if isHistorical:
-                            profile.addData(h/3.28084, p*100 , t , dp , dira, spd * conversion)
+                            profile.addData(firstTime,h/3.28084, p*100 , t , dp , dira, spd * conversion)
+                            firstTime = False
                         else:
-                            
-                            profile.addData(h, p * 10.0, t / 10.0, dp / 10.0, dira, spd * conversion)
-                            
+                            try:
+                                profile.addData(firstTime,h, p * 10.0, t / 10.0, dp / 10.0, dira, spd * conversion)
+                                firstTime = False
+                            except:
+                                print("cant add data")
                     except:
-                        if isHistorical:
-                            if debug: print("There is a formating problem with your Winds Aloft")
-                        break
+                        if debug: print("There is a formating problem with your Winds Aloft")
                     #break
                 #else:
                     #break	
-                line = opened.readline()
         except:
             traceback.print_exc()
-            return "invalid"
+            #return "invalid"
         if debug: print('DONE')
+        opened.close()
         return profile
     
     #created for legacy support

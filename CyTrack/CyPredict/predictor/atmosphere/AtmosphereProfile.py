@@ -3,7 +3,7 @@ Created on Jan 21, 2017
 
 @author: DGXU
 '''
-from atmosphere.AtmosphereState import AtmosphereState
+from CyPredict.predictor.atmosphere.AtmosphereState import AtmosphereState
 from operator import attrgetter
 from math import exp
 from time import gmtime
@@ -104,30 +104,40 @@ class AtmosphereProfile(object):
     '''
     Add a state to the profile
     '''
-    def addData(self, altitude, pressure, temperature, dewPoint, windDirection, windSpeed):
+    def addData(self, firstTime, altitude, pressure, temperature, dewPoint, windDirection, windSpeed):
+        if(firstTime):
+            self.data = []
+        
         self.data.append(AtmosphereState(altitude, pressure,  temperature, dewPoint, windDirection, windSpeed))
         self.data.sort(key=attrgetter('h'))
-        if debug: print('windSpeed'+str(windSpeed))
 
-        self.roc.clear()
+        if debug: print('windSpeed'+str(windSpeed))
+        self.roc=[]
+        itr = None
         itr = iter(self.data)
         curr = itr.__next__()
-
         for nextState in itr:
+            #print(nextState)
+            
             dh = nextState.h - curr.h
             dp = nextState.p - curr.p 
             dt = nextState.t - curr.t
             dd = nextState.dp - curr.dp
             ds = nextState.ws - curr.ws
             ddir = nextState.wd - curr.wd
+            
 
             if abs(ddir) > 180: #Adjust for wind direction wrapping
                 if ddir > 0:
                     ddir -= 360
                 else:
                     ddir += 360
-
-            self.roc.append(AtmosphereState(dh, dp/dh, dt/dh, dd/dh, ddir/dh, ds/dh))
+            try:
+                self.roc.append(AtmosphereState(dh, dp/dh, dt/dh, dd/dh, ddir/dh, ds/dh))
+            except:
+                self.data = []
+                #self.data.remove(nextState)
+                print("Cant append")
             curr = nextState
 
 
@@ -152,8 +162,12 @@ class AtmosphereProfile(object):
                 continue
             if i >= len(self.roc):
                 i = len(self.roc) - 1
-
-            dd = self.roc[i]
+            if 0 == len(self.roc):
+                print("no data in roc")
+            try:
+                dd = self.roc[i]
+            except:
+                print(self.roc)
             dh = alt - self.base.h
             return AtmosphereState(
                 alt, dd.p * dh + self.base.p,
