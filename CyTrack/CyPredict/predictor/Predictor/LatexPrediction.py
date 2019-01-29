@@ -1,6 +1,6 @@
 import os
 import datetime
-from DateTime import DateTime 
+from datetime import datetime 
 import math 
 from Map import MapPoint
 #from copy import deepcopy
@@ -72,6 +72,7 @@ class LatexHAB(object):
         time is in the form of 'Mar 9, 1997 13:45:00 UTC'
         '''
         dt = DateTime(time)
+        self.realDate = DateTime(time)
         self.parachuteDrag=pcd
         self.parachuteArea=pArea
         
@@ -97,7 +98,7 @@ class LatexHAB(object):
         RUC=RUCGFS()
         
         
-        wind = RUC.getAtmosphere(self.startTime, int(self.startLat*10)/10.0, int(self.startLon*10)/10.0);
+        wind = RUC.getAtmosphere(self.realDate, int(self.startLat*10)/10.0, int(self.startLon*10)/10.0);
         print(wind)
         for i in range(0,len(self.balloonData)-1):
             bDat=self.balloonData[i];

@@ -35,7 +35,7 @@ if __name__ == '__main__':
     
     # setValues(self,time,lat,lon,altitude,mass,lift,pArea,pcd,bmass,bcd):
     
-    pre.setValues('December 31, 2018 16:30:00 US/Central', 42.0308, -93.6319, -0, 3.0, 4.667, 2.0, 1.5, 1200, .25)
+    pre.setValues('January 30, 2018 16:30:00 US/Central',year,month,day,hour,minute, 42.0308, -93.6319, -0, 3.0, 4.667, 2.0, 1.5, 1200, .25)
     
     pre.runPrediction()
      

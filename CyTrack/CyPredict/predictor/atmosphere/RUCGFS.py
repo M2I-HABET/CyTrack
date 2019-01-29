@@ -14,8 +14,9 @@ debug=True
 
 class RUCGFS:
     def getAtmosphere(self,time, lat, lon):
+        print(str(time)+"\n\n\n\n\n\n\n")
         #Adjust fields to match model
-        startTime = (time // 10800)*10800
+        startTime = (int(time.millis())/1000 // 10800)*10800
         print(lat)
         print(lon)
         rlat = lat
@@ -47,11 +48,11 @@ class RUCGFS:
             e = name.rfind('.')
             x = name.split('_')
             y = x[-1].split('.')
-            old = modelTime > int(y)
+            #old = modelTime > int(y)
             
         net = None
         if old:
-            net = self._download(startTime, modelTime, rlat, rlon)
+            net = self._download(time, modelTime, rlat, rlon)
             
         if net is None:
             return local
@@ -59,12 +60,12 @@ class RUCGFS:
             return net
     #NOT FINISHED	
     def _download(self, time, modelTime, lat, lon):
-        
-        address = 'https://rucsoundings.noaa.gov/get_soundings.cgi?data_source=GFS;airport=' + str(lat) + "," + str(lon) + ";hydrometeors=false&startSecs=" + str(time) + "&endSecs=" + str(time+1)
+        address = "https://rucsoundings.noaa.gov/get_soundings.cgi?data_source=GFS&latest=latest&start_year="+str(time.year)+"&start_month_name=" + str(time.month) +"&start_mday=" +str(time.day) +"&start_hour="+str(time.hour)+ "&start_min="+str(time.minute)+"&n_hrs=1.0&fcst_len=shortest&airport="+str(lat)+"%2C"+str(lon)+"&text=Ascii%20text%20%28GSD%20format%29&hydrometeors=false&start=latest"
+        #address = 'https://rucsoundings.noaa.gov/get_soundings.cgi?data_source=GFS;airport=' + str(int(lat)*10/10.0) + "," + str(int(lon)*10/10.0) + ";hydrometeors=false&startSecs=" + str(time) + "&endSecs=" + str(time+1)
         if debug: print(address)
         cwd = os.getcwd()
         if debug: print(cwd)
-        file=cwd+"\\wind\\gfs_" + str(int(lat*10)/10.0) + "_" + str(int(lon*10)/10.0) + "_" + str(int(time)) + "_" + str(modelTime) + ".gsd"
+        file=cwd+"\\wind\\gfs_" + str(int(lat*10)/10.0) + "_" + str(int(lon*10)/10.0)+ ".gsd"
         if debug: print(file)
         if debug: print("")
         if debug: print("did it print")
