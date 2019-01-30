@@ -1,0 +1,133 @@
+{% extends "template.html" %}
+
+{% block content %}
+{% load staticfiles %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-auto align-self-center">
+
+<div class="card">
+
+    <h5 class="card-header info-color white-text text-center py-4">
+        <strong>Sign up</strong>
+    </h5>
+
+    <div class="card-body px-lg-5 pt-0">
+
+        <form class="md-form" style="color: #757575;" action="/CyPredict/Prediction" method="post">
+            {% csrf_token %}
+            <div>
+                <select class="mdb-select md-form mb-4 initialized" id="year">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+                <label for="year">Year</label>
+            </div>
+
+            <div>
+                <select class="mdb-select md-form mb-4 initialized" id="month">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+                <label for="month">Month</label>
+            </div>
+
+            <div>
+                <select class="mdb-select md-form mb-4 initialized" id="day">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+                <label for="day">Day</label>
+            </div>
+
+            <div>
+                <select class="mdb-select md-form mb-4 initialized" id="hour">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+                <label for="hour">Hour</label>
+            </div>
+
+            <div>
+                <select class="mdb-select md-form mb-4 initialized" id="minute">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+                <label for="minute">Minute</label>
+            </div>
+
+            <label for="lat">Lattitude</label>
+            <input type="text" id="lat" class="form-control" placeholder="">
+
+            <label for="lon">Longitude</label>
+            <input type="text" id="lon" class="form-control" placeholder="">
+
+            <label for="alt">Altitude</label>
+            <input type="text" id="alt" class="form-control" placeholder="">
+
+            <label for="mass">Payload Mass</label>
+            <input type="text" id="mass" class="form-control" placeholder="">
+
+            <label for="lift">Neck Lift</label>
+            <input type="text" id="lift" class="form-control" placeholder="">
+
+            <label for="pArea">Parachute Area</label>
+            <input type="text" id="pArea" class="form-control" placeholder="">
+
+            <label for="pcd">Parachute Cd</label>
+            <input type="text" id="pcd" class="form-control" placeholder="">
+
+            <div>
+                <select class="mdb-select md-form mb-4 initialized" id="bmass">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+                <label for="bmass">Balloon Mass</label>
+            </div>
+
+
+            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0" type="submit">Sign in</button>
+
+            <div class="text-center">
+                <p>or sign up with:</p>
+
+                <a type="button" class="btn-floating btn-fb btn-sm">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a type="button" class="btn-floating btn-tw btn-sm">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a type="button" class="btn-floating btn-li btn-sm">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a type="button" class="btn-floating btn-git btn-sm">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <hr>
+
+                <p>By clicking
+                    <em>Sign up</em> you agree to our
+                    <a href="" target="_blank">terms of service</a> and
+                    <a href="" target="_blank">terms of service</a>. </p>
+            </div>
+
+        </form>
+    </div>
+</div>
+</div>
+</div></div>
+
+{% endblock %}

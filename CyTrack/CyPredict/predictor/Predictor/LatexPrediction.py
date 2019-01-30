@@ -65,7 +65,7 @@ class LatexHAB(object):
     def toString(self):
         return self.balloonName + ": " + self.balloonLift + "kg neck lift"
     
-    def setValues(self,year,month,day,hour,minute,lat,lon,altitude,mass,lift,pArea,pcd,bmass,bcd):
+    def setValues(self,year,month,day,hour,minute,lat,lon,altitude,mass,lift,pArea,pcd,bmass):
         
         '''
         time is in the form of 'Mar 9, 1997 13:45:00 UTC'
@@ -88,7 +88,6 @@ class LatexHAB(object):
         self.parachuteArea=pArea
         self.balloonDrag=pcd
         self.balloonMass=bmass
-        self.balloonDrag=bcd
         return
     
     def runPrediction(self): #Returns a MapPath
@@ -246,7 +245,7 @@ class LatexHAB(object):
         #print('AccentTimes: '+str(accenttimes))
         #print('DecentTimes: '+str(decenttimes))
         del atmo
-        return cesiumDat;
+        return [times, self.range, self.burst, cesiumDat];
 
 
     def getBurst(self): # Returns a MapPoint
