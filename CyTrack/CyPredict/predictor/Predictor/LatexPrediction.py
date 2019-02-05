@@ -31,7 +31,7 @@ class LatexHAB(object):
     balloonDrag = 0.0 
     burstRad = 0.0
     
-    burst = 0.0;  #MapPoint
+    burst = [0, 0, 0];  #MapPoint
     landing = 0.0; #MapPoint
     
     RHOG = 0.1762  # kg/m^3 (Helium)
@@ -83,6 +83,7 @@ class LatexHAB(object):
         self.startLat=lat
         self.startLon=lon
         self.startAlt=altitude
+        self.burst = [self.startLat,self.startLon,self.startAlt]
         self.payloadMass=mass
         self.balloonLift=lift
         self.parachuteArea=pArea
@@ -90,11 +91,12 @@ class LatexHAB(object):
         self.balloonMass=bmass
         return
     
-    def runPrediction(self): #Returns a MapPath
+    def runPrediction(self,notBurst=True): #Returns a MapPath
         path = 0.0 #Should equal a mappath
         cesiumDat = []
+        cesiumDat2 = []
         historical = False
-        
+        self.isAscending = notBurst # setting up so that we can do post burst
         RUC=RUCGFS()
         
         
@@ -135,7 +137,7 @@ class LatexHAB(object):
         area = math.pi * math.pow(radius, 2.0);
         ascentRate = math.pow(((self.balloonLift - self.payloadMass) * 9.81) / (0.5 * self.RHO * self.balloonDrag * area), 1.0/2.0);
         times=0
-        accenttimes=-1
+        accenttimes=0
         decenttimes=0
         while(curAscending==True):
             accenttimes+=1
@@ -196,6 +198,7 @@ class LatexHAB(object):
             
             if cesium:
                 cesiumDat.append(str((accenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+','+str(int(cAlt))+',')
+                cesiumDat2.append(str((accenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+',')
             if not cesium : print(str(cLat)+','+str(cLon))
             
         
@@ -232,7 +235,9 @@ class LatexHAB(object):
             if debug: print('range:'+str(self.range))
             if debug: print('clat:'+str(cLat))
             if debug: print('clon:'+str(cLon))
-            if cesium : cesiumDat.append(str((accenttimes+decenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+','+str(int(cAlt))+',')
+            if cesium :
+                cesiumDat.append(str((accenttimes+decenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+','+str(int(cAlt))+',')
+                cesiumDat2.append(str((accenttimes+decenttimes)*self.tStep)+','+str(int(cLon*10000)/10000)+','+str(int(cLat*10000)/10000)+',')
             if not cesium : print(str(cLat)+','+str(cLon))
             #Store
             #path.add(cLat, cLon, cAlt, self.self.startTime + math.round(eTime));
@@ -245,7 +250,7 @@ class LatexHAB(object):
         #print('AccentTimes: '+str(accenttimes))
         #print('DecentTimes: '+str(decenttimes))
         del atmo
-        return [times, self.range, self.burst, cesiumDat];
+        return [times, self.range, self.burst, cesiumDat, cesiumDat2];
 
 
     def getBurst(self): # Returns a MapPoint

@@ -3,6 +3,8 @@ from CyPredict.predictor.Predictor.LatexPrediction import LatexHAB
 from django.contrib.auth.decorators import login_required
 import xml.etree.ElementTree as ET
 from django.http import HttpResponseRedirect
+import requests
+import pandas as pd
 # Create your views here.
 
 @login_required
@@ -36,9 +38,21 @@ def predictionOutPut(request):
     print(results[0])
     print(results[1])
     print(results[2])
-    return render(request, 'CyPredict/predict.html', {'results': results[3]})
+    return render(request, 'CyPredict/predict.html', {'results': results[3],'results2': results[4], "burst_lat": results[2][1], "burst_lon": results[2][0], "burst_alt": results[2][2]})
+    #return render(request, 'CyPredict/predict.html', {'results': results[3],'results2': results[4], "burst_lat": int(results[2][1]*10000)/10000.0, "burst_lon": int(results[2][0]*10000)/10000.0, "burst_alt": int(results[2][2]*10000)/10000.0})
 
 @login_required
 def getParams(request):
     
     return render(request, 'CyPredict/getperams.html')
+
+
+# Helper Functions
+
+def get_elevation(lat, long):
+    query = ('https://api.open-elevation.com/api/v1/lookup?locations='+str(lat)+','+str(long))
+    r = requests.get(query).json()  # json object, various ways you can extract value
+    # one approach is to use pandas json functionality:
+    elevation = pd.io.json.json_normalize(r, 'results')['elevation'].values[0]
+    print(elevation)
+    return elevation
