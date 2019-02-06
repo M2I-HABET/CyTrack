@@ -3,8 +3,8 @@ from CyPredict.predictor.Predictor.LatexPrediction import LatexHAB
 from django.contrib.auth.decorators import login_required
 import xml.etree.ElementTree as ET
 from django.http import HttpResponseRedirect
-import requests
-import pandas as pd
+#import requests
+#import pandas as pd
 # Create your views here.
 
 @login_required
@@ -49,10 +49,10 @@ def getParams(request):
 
 # Helper Functions
 
-def get_elevation(lat, long):
-    query = ('https://api.open-elevation.com/api/v1/lookup?locations='+str(lat)+','+str(long))
-    r = requests.get(query).json()  # json object, various ways you can extract value
-    # one approach is to use pandas json functionality:
-    elevation = pd.io.json.json_normalize(r, 'results')['elevation'].values[0]
-    print(elevation)
-    return elevation
+#def get_elevation(lat, long):
+#    query = ('https://api.open-elevation.com/api/v1/lookup?locations='+str(lat)+','+str(long))
+#    r = requests.get(query).json()  # json object, various ways you can extract value
+#    # one approach is to use pandas json functionality:
+#    elevation = pd.io.json.json_normalize(r, 'results')['elevation'].values[0]
+#    print(elevation)
+#    return elevation
