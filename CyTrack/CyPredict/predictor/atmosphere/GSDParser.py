@@ -7,7 +7,6 @@ from CyPredict.predictor.atmosphere.AtmosphereProfile import AtmosphereProfile
 import calendar
 import datetime
 import traceback
-import time
 debug=False
 
 # A class to parse NOAA GSD formatted soundings.
@@ -27,7 +26,6 @@ class GSDParser:
             if debug: print(file)
             if debug: print("That is the file name")
             #with open(file, 'r') as opened:
-            time.sleep(1)
             opened=open(file,'r')
 
             lines = list(opened)

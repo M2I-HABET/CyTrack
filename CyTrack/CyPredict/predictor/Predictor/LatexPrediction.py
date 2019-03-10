@@ -1,6 +1,6 @@
 import os
 import datetime
-from datetime import datetime 
+from DateTime import DateTime 
 import math 
 #from copy import deepcopy
 from CyPredict.predictor.atmosphere.RUCGFS import RUCGFS 
@@ -65,20 +65,17 @@ class LatexHAB(object):
     def toString(self):
         return self.balloonName + ": " + self.balloonLift + "kg neck lift"
     
-    def setValues(self,year,month,day,hour,minute,lat,lon,altitude,mass,lift,pArea,pcd,bmass):
+    def setValues(self,time,lat,lon,altitude,mass,lift,pArea,pcd,bmass):
         
         '''
         time is in the form of 'Mar 9, 1997 13:45:00 UTC'
         '''
-        self.timeDic = {
-            "year":year,
-            "month":month,
-            "day":day,
-            "hour":hour,
-            "minute":minute
-        }
+        dt = DateTime(time)
         self.parachuteDrag=pcd
         self.parachuteArea=pArea
+        
+        self.startTime= int(dt.millis());
+        self.startTime=self.startTime/1000
         
         self.startLat=lat
         self.startLon=lon
@@ -100,8 +97,8 @@ class LatexHAB(object):
         RUC=RUCGFS()
         
         
-        wind = RUC.getAtmosphere(self.timeDic, int(self.startLat*10)/10.0, int(self.startLon*10)/10.0);
-
+        wind = RUC.getAtmosphere(self.startTime, int(self.startLat*10)/10.0, int(self.startLon*10)/10.0);
+        
         for i in range(0,len(self.balloonData)-1):
             bDat=self.balloonData[i];
             if bDat[0]==self.balloonMass/1000:

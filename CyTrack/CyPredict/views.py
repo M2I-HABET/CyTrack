@@ -30,9 +30,9 @@ def predictionOutPut(request):
     bmass = float(request.POST.get("bmass"))
     tStep = 15
     pre = LatexHAB(tStep)
-    # 2019, "Jan", 31, 18, 0, 42.0308, -93.6319, -0,3.0, 4.667, 2.0, 1.5, 2000
-    # year,month,day,hour,minute,lat,lon,altitude,mass,lift,pArea,pcd,bmass
-    pre.setValues(year,month,day,hour,minute,lat,lon,altitude,mass,lift,pArea,pcd,bmass)
+    dateString = str(month)+" "+str(day)+", "+str(year)+" "+str(hour)+":"+str(minute)+":00 UTC"
+    print(dateString)
+    pre.setValues(dateString,lat,lon,altitude,mass,lift,pArea,pcd,bmass)
     results = pre.runPrediction()
     del pre
     print(results[0])
