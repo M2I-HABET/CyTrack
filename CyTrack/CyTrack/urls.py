@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^cypredict/', include('CyPredict.urls')),
     url(r'^CyTrack/', include('CyTracking.urls')),
     url(r'^cytrack/', include('CyTracking.urls')),
+    url(r'^cyteam/', include('CyTeams.urls')),
+    url(r'^CyTeam/', include('CyTeams.urls')),
     url(r'^$', include('CyHome.urls')),
 
 ]
