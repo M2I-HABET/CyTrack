@@ -3,6 +3,8 @@ from CyPredict.predictor.Predictor.LatexPrediction import LatexHAB
 from django.contrib.auth.decorators import login_required
 import xml.etree.ElementTree as ET
 from django.http import HttpResponseRedirect
+from CyPredict.models import predictions
+import uuid
 #import requests
 #import pandas as pd
 # Create your views here.
@@ -31,13 +33,12 @@ def predictionOutPut(request):
     tStep = 15
     pre = LatexHAB(tStep)
     dateString = str(month)+" "+str(day)+", "+str(year)+" "+str(hour)+":"+str(minute)+":00 UTC"
-    print(dateString)
     pre.setValues(dateString,lat,lon,altitude,mass,lift,pArea,pcd,bmass)
     results = pre.runPrediction()
+    newPrediction = predictions(uuidVal=uuid.uuid4(), yearVal=year, monthVal=month, dayVal=day, hourVal=hour, minuteVal=minute, latVal=lat, lonVal=lon, altitudeVal=altitude, massVal=mass, liftVal=lift, pAreaVal=pArea, pcdVal=pcd, bmassVal = bmass, path=results[3], blat=results[2][1], blon=results[2][0], balt=results[2][2], btime=0)
+    newPrediction.save()
+    print(newPrediction.uuidVal)
     del pre
-    print(results[0])
-    print(results[1])
-    print(results[2])
     return render(request, 'CyPredict/predict.html', {'results': results[3],'results2': results[4], "burst_lat": results[2][1], "burst_lon": results[2][0], "burst_alt": results[2][2]})
     #return render(request, 'CyPredict/predict.html', {'results': results[3],'results2': results[4], "burst_lat": int(results[2][1]*10000)/10000.0, "burst_lon": int(results[2][0]*10000)/10000.0, "burst_alt": int(results[2][2]*10000)/10000.0})
 

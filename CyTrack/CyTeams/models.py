@@ -74,3 +74,6 @@ class Flights(models.Model):
             size=5,  # This is going to be Source Time Lat Lon Alt
         )
     )
+    predictions = ArrayField(
+        models.CharField(max_length=36, blank=True)
+    )

@@ -1,4 +1,4 @@
-import os
+import os, shutil
 import datetime
 from DateTime import DateTime 
 import math 
@@ -114,6 +114,16 @@ class LatexHAB(object):
             wind = os.path.join("c:\\Habet\\historical_data\\", time + ".txt")
         GSD=GSDParser()
         atmo = GSD.parseAtmosphere(wind,False);
+        cwd = os.getcwd()
+        folder = cwd+"\\wind\\"
+        for the_file in os.listdir(folder):
+            file_path = os.path.join(folder, the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+            except Exception as e:
+                print(e)
         
         if atmo == None:
             return None
