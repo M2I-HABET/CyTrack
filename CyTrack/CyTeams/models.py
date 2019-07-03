@@ -34,7 +34,7 @@ class Mission(models.Model):
     # This class will contain all of the mission specific information.
     # This will just hold some of the basic info about what the mission
     # will be doing but nothing beyond that will be stored
-    ID = models.CharField(max_length=10, blank=False),
+    ID = models.CharField(max_length=10, blank=False)
     des = models.CharField(max_length=150, blank=True)
     flights = ArrayField(models.CharField(max_length=30, blank=True))
     checklistNames = ArrayField(
@@ -49,9 +49,9 @@ class Mission(models.Model):
 
 
 class Flights(models.Model):
-    ID = models.CharField(max_length=10, blank=False),
+    ID = models.CharField(max_length=10, blank=False, default = 0)
     des = models.CharField(max_length=150, blank=True)
-    flightDate = models.DateTimeField(auto_now=False)
+    flightDate = models.DateTimeField(auto_now=False, blank=True)
     flightPerams = JSONField()  # Flight specific perameters like mass
     members = ArrayField(  # This will be member name and role
         ArrayField(
@@ -76,4 +76,13 @@ class Flights(models.Model):
     )
     predictions = ArrayField(
         models.CharField(max_length=36, blank=True)
+    )
+    
+class singleFlgiht(models.Model):
+    IDs = models.CharField(max_length=10, blank=False, default = 0)
+    flightPositionData = ArrayField(
+        ArrayField(
+            models.CharField(max_length=50, blank=True),
+            size=5,  # This is going to be Source Time Lat Lon Alt
+        )
     )

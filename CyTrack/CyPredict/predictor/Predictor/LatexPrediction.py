@@ -21,7 +21,7 @@ class LatexHAB(object):
     startAlt = 0.0
     groundLevel = 0.0
     isAscending = True
-    tStep = 15
+    tStep = 5
     
     payloadMass = 0.0
     balloonLift = 0.0
