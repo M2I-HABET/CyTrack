@@ -78,11 +78,3 @@ class Flights(models.Model):
         models.CharField(max_length=36, blank=True)
     )
     
-class singleFlgiht(models.Model):
-    IDs = models.CharField(max_length=10, blank=False, default = 0)
-    flightPositionData = ArrayField(
-        ArrayField(
-            models.CharField(max_length=50, blank=True),
-            size=5,  # This is going to be Source Time Lat Lon Alt
-        )
-    )

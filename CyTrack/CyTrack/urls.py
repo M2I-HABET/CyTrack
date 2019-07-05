@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^cytrack/', include('CyTracking.urls')),
     url(r'^cyteam/', include('CyTeams.urls')),
     url(r'^CyTeam/', include('CyTeams.urls')),
+    url(r'^REST/V1/', include('REST.urls')),
     url(r'^$', include('CyHome.urls')),
 
 ]
