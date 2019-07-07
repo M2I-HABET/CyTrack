@@ -36,8 +36,9 @@ def AddFlightData(request):
     else:
         flight.flightPositionData = [[scriptID, time, lat, lon, alt]]
     flight.save()
-                
-
-    print(lat)
     data = {'response': 'acepted'}
     return JsonResponse(data)
+
+@csrf_exempt 
+def GetFlightData(request):
+    return
