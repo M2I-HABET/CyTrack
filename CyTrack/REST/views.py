@@ -32,12 +32,9 @@ def AddFlightData(request):
     flight = singleFlight.objects.get(IDs = flightID)
     print(flight.IDs)
     if flight.flightPositionData:
-        print("was made")
-        print(flight.flightPositionData)
         flight.flightPositionData.append([scriptID, time, lat, lon, alt])
     else:
-        flight.flightPositionData =[scriptID, time, lat, lon, alt]
-        print(flight.flightPositionData)
+        flight.flightPositionData = [[scriptID, time, lat, lon, alt]]
     flight.save()
                 
 
