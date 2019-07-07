@@ -23,18 +23,21 @@ def newFlight(request):
 
 @csrf_exempt 
 def AddFlightData(request):
-    scriptID = request.POST.get('scriptID')
-    flightID = request.POST.get('flightID')
-    time = request.POST.get('time')
-    lat = request.POST.get('lat')
-    lon = request.POST.get('lon')
-    alt = request.POST.get('alt')
+    scriptID = str(request.POST.get('scriptID'))
+    flightID = str(request.POST.get('flightID'))
+    time = str(request.POST.get('time'))
+    lat = str(request.POST.get('lat'))
+    lon = str(request.POST.get('lon'))
+    alt = str(request.POST.get('alt'))
     flight = singleFlight.objects.get(IDs = flightID)
     print(flight.IDs)
     if flight.flightPositionData:
+        print("was made")
+        print(flight.flightPositionData)
         flight.flightPosisitonData.append([scriptID, time, lat, lon, alt])
     else:
         flight.flightPosisitonData =[scriptID, time, lat, lon, alt]
+        print(flight.flightPosisitonData)
     flight.save()
                 
 

@@ -12,6 +12,8 @@ r = requests.post('http://127.0.0.1:8000/REST/V1/new_flight')
 json_data = json.loads(r.text)
 flightID = json_data["flightID"]
 scriptID = json_data["scriptID"]
+print(flightID)
+print(scriptID)
 while(True):
     time.sleep(1)
     params = {'scriptID': scriptID, 'flightID': flightID, 'time': int(time.time()), 'lat': Lat, 'lon': Lon, 'alt':altitude}
