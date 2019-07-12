@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     url(r'^flight_location', views.AddFlightData),
     path(r'flight/<str:uuid>', views.GetFlightPath),
+    path(r'flightpos/<str:uuid>', views.GetFlightPos),
     url(r'^new_flight', views.newFlight),
     url(r'^$', views.help),
     

@@ -62,3 +62,18 @@ def GetFlightPath(request,uuid):
         retDat.append(float(dat[4]))
     print("Returning Flight")
     return JsonResponse({'dat':retDat})
+
+@csrf_exempt 
+def GetFlightPos(request,uuid):
+    flightID = uuid
+    print(uuid)
+    flight = singleFlight.objects.get(IDs = flightID)
+    data = flight.flightPositionData
+    idx = len(data)-1
+    dat = data[idx]
+    lat = dat[2]
+    lon = dat[3]
+    alt = dat[4]
+    
+    print("Returning Flight")
+    return JsonResponse({'lat':lat, 'lon':lon, 'alt':alt})
