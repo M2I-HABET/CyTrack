@@ -10,11 +10,14 @@ def maps(request):
 
 def flight(request, uuid):
     flightID = uuid
+    print(uuid)
     flight = singleFlight.objects.get(IDs = flightID)
     data = flight.flightPositionData
+    data.pop(0)
     retDat = []
     print(data[0])
     timesec = int(data[0][1])
+    retDat2=[]
     for dat in data:
         retDat.append(str(int(dat[1])-timesec)+","+dat[3]+','+dat[2]+","+dat[4]+",")
     print(retDat[0])
@@ -28,7 +31,7 @@ def flight(request, uuid):
     timeformat = year+"-"+month+"-"+day+"T"+hour+":"+minute+":"+second+"Z" #2012-08-04T10:00:00Z
     endDate = str(int(year)+1)+"-"+month+"-"+day+"T"+hour+":"+minute+":"+second+"Z"
     
-    return render(request, 'CyTrack/track.html',{'path': retDat, 'date': timeformat, 'endDate':endDate})
+    return render(request, 'CyTrack/track.html',{'path': retDat, 'date': timeformat, 'endDate':endDate, 'uuid': flightID})
 
 
 

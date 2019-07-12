@@ -267,7 +267,26 @@
  
 <script>
 Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1NGQyZTk2My02M2U1LTQxZWEtOGQ2OC0wMTBhNTBiYzRjYzEiLCJpZCI6NjA3NCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0NTE4MjUyOH0.6Z4xl7dvz36WUWhLJAms7o7s-Oy02MzZUFATrHM6cBI"
- 
+
+
+
+var viewer = new Cesium.Viewer('cesiumContainer', {
+    terrainProvider : Cesium.createWorldTerrain(),
+    baseLayerPicker : true,
+    shouldAnimate : false
+});
+
+
+
+
+function updateData(){
+ $.getJSON('http://127.0.0.1:8000/REST/V1/flight/{{uuid}}', function (data) {
+
+
+      var flightPath = data.dat
+      
+
+
 var czml = [{
     "id" : "document",
     "name" : "CZML Path",
@@ -295,16 +314,12 @@ var czml = [{
     },
     "model" : {
         "gltf" : '{% static "glbs/CesiumBalloon.glb" %}',
-        "scale" : 50
+        "scale" : 5
     }
     ,
     "position" : {
         "epoch" : "{{date}}",
-        "cartographicDegrees" : [
-            {% for result in path%}
-	           {{result}}
-	        {% endfor %} 
-        ]
+        "cartographicDegrees" : flightPath
     }
 }, {
     "id" : "fillColor-reference",
@@ -338,15 +353,16 @@ var czml = [{
 
         
     }
-}];
+}]
 
-var viewer = new Cesium.Viewer('cesiumContainer', {
-    terrainProvider : Cesium.createWorldTerrain(),
-    baseLayerPicker : true,
-    shouldAnimate : false
+
+      viewer.dataSources.removeAll()
+      viewer.dataSources.add(Cesium.CzmlDataSource.load(czml))
+
 });
-
-viewer.dataSources.add(Cesium.CzmlDataSource.load(czml))
+}
+updateData()
+setInterval(updateData, 8000);
 
   </script> 
 

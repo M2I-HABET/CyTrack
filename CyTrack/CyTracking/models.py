@@ -9,6 +9,6 @@ class singleFlight(models.Model):
     flightPositionData = ArrayField(
         ArrayField(
             models.CharField(max_length=100, blank=True),
-            size=5,  # This is going to be Source Time Lat Lon Alt
+            size=6,  # This is going to be Source Time Lat Lon Alt
         ),blank=True
     )
