@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import ArrayField, JSONField
 from django.contrib import admin
 # Create your models here.
 
@@ -12,3 +12,9 @@ class singleFlight(models.Model):
             size=6,  # This is going to be Source Time Lat Lon Alt
         ),blank=True
     )
+    flightData = ArrayField(
+        models.CharField(max_length=1000, blank=True),
+        blank=True, default = list
+    )
+
+    
