@@ -280,7 +280,7 @@ var viewer = new Cesium.Viewer('cesiumContainer', {
 
 
 function updateData(){
- $.getJSON('http://10.29.188.15:8000/REST/V1/flight/{{uuid}}', function (data) {
+ $.getJSON('/REST/V1/flight/{{uuid}}', function (data) {
 
 
       var flightPath = data.dat

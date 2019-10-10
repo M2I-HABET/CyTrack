@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, JSONField
 from django.contrib import admin
+from datetime import datetime
 # Create your models here.
 
 
 class singleFlight(models.Model):
     IDs = models.CharField(max_length=36, blank=False, default = 0)
+    Desc = models.CharField(max_length=50, blank=False, default = "Old Flight Data")
+    flightDate = models.DateTimeField(default=datetime.now(), blank=True)
     flightPositionData = ArrayField(
         ArrayField(
             models.CharField(max_length=100, blank=True),

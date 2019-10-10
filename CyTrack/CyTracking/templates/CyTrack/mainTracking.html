@@ -1,0 +1,83 @@
+{% extends "template.html" %}
+
+{% block content %}
+{% load staticfiles %}
+
+            
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="prediction-tab" data-toggle="tab" href="#prediction" role="tab" aria-controls="prediction"
+      aria-selected="true">Prediction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="tracking-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+      aria-selected="false">New Flight</a>
+  </li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="prediction" role="tabpanel" aria-labelledby="prediction-tab"><div style="height: 700px" id="cesiumContainer"></div></div>
+  <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    
+    
+    
+    </div>
+</div>
+<script>
+  (function () {
+    ('#myTab li:last-child a').tab('show')
+  })
+</script>
+ 
+<script>
+Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1NGQyZTk2My02M2U1LTQxZWEtOGQ2OC0wMTBhNTBiYzRjYzEiLCJpZCI6NjA3NCwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0NTE4MjUyOH0.6Z4xl7dvz36WUWhLJAms7o7s-Oy02MzZUFATrHM6cBI"
+
+
+var czml = [{
+    "id" : "document",
+    "name" : "CZML Point",
+    "version" : "1.0"
+}, {
+    "id" : "fillColor-reference",
+    "name" : "Burst Location",
+    "description" : "<p>Predicted balloon burst location {{burst_lat}}, {{burst_lon}}, {{burst_alt}}m</p> " + '<a href="/CyTrack/10ec86c7-fa3e-4837-b71d-a333489eb8d7" target="_blank">View Flight</a>',
+    
+    "model" : {
+        "gltf" : '{% static "glbs/CesiumBalloon.glb" %}',
+        minimumPixelSize : 128,
+        maximumScale : 20000
+    },
+    "label" : {
+        "fillColor" : {
+            "rgba" : [255, 255, 255, 255]
+        },
+        "font" : "13pt Lucida Console",
+        "horizontalOrigin" : "LEFT",
+        "outlineColor" : {
+            "rgba":[150, 0, 150, 255]
+        },
+        "outlineWidth" : 3,
+        "pixelOffset" : {
+            "cartesian2" : [20, 0]
+        },
+        "style" : "FILL_AND_OUTLINE",
+        "text" : "Burst Location"
+    },
+    "position" : {
+        "cartographicDegrees" : [ -93.31189999999847,42.35079999999925, 6700]
+
+
+        
+    }
+}];
+
+var viewer = new Cesium.Viewer('cesiumContainer');
+var dataSourcePromise = Cesium.CzmlDataSource.load(czml);
+viewer.infoBox.frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
+viewer.dataSources.add(dataSourcePromise);
+viewer.zoomTo(dataSourcePromise);
+    
+
+  </script> 
+
+{% endblock %}

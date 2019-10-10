@@ -6,7 +6,14 @@ import time
 
 
 def maps(request):
-    return render(request, 'CyTrack/track.html')
+    flights = singleFlight.objects.all().order_by('-flightDate')[:20]
+    for flight in flights:
+        
+        if isinstance(flight.flightPositionData,list):
+            if isinstance(flight.flightPositionData[-1], list):
+                print(flight.IDs)
+                print(flight.flightPositionData[-1])
+    return render(request, 'CyTrack/mainTracking.html')
 
 def flight(request, uuid):
     flightID = uuid

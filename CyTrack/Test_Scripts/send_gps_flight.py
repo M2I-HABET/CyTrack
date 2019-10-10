@@ -15,7 +15,7 @@ if(True):
     scriptID = json_data["scriptID"]
 print(flightID)
 print(scriptID)
-while(False):
+while(True):
     time.sleep(1)
     params = {'scriptID': scriptID, 'flightID': flightID, 'time': int(time.time()), 'lat': Lat, 'lon': Lon, 'alt':altitude}
     r = requests.post(url = postURL, data = params, timeout=5)
