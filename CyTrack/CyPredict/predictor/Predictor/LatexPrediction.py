@@ -115,7 +115,7 @@ class LatexHAB(object):
         GSD=GSDParser()
         atmo = GSD.parseAtmosphere(wind,False);
         cwd = os.getcwd()
-        folder = cwd+"\\wind\\"
+        folder = cwd+"/wind/"
         for the_file in os.listdir(folder):
             file_path = os.path.join(folder, the_file)
             try:

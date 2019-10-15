@@ -62,7 +62,7 @@ class RUCGFS:
         if debug: print(address)
         cwd = os.getcwd()
         if debug: print(cwd)
-        file=cwd+"\\wind\\gfs_" + str(int(lat*10)) + "_" + str(int(lon*10)) + "_" + str(int(time)) + "_" + str(modelTime) + ".gsd"
+        file=cwd+"/wind/gfs_" + str(int(lat*10)) + "_" + str(int(lon*10)) + "_" + str(int(time)) + "_" + str(modelTime) + ".gsd"
         if debug: print(file)
         if debug: print("")
         if debug: print("did it print")
