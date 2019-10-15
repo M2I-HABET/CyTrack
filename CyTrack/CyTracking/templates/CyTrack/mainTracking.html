@@ -37,10 +37,13 @@ var czml = [{
     "id" : "document",
     "name" : "CZML Point",
     "version" : "1.0"
-}, {
-    "id" : "fillColor-reference",
-    "name" : "Burst Location",
-    "description" : "<p>Predicted balloon burst location {{burst_lat}}, {{burst_lon}}, {{burst_alt}}m</p> " + '<a href="/CyTrack/10ec86c7-fa3e-4837-b71d-a333489eb8d7" target="_blank">View Flight</a>',
+}, 
+            
+{% for flight in dat %}
+    {
+    "id" : "fillColor-reference {{flight.id}}",
+    "name" : "{{flight.id}}",
+    "description" :  '<a href="/CyTrack/{{flight.id}}" target="_blank">View Flight</a>',
     
     "model" : {
         "gltf" : '{% static "glbs/CesiumBalloon.glb" %}',
@@ -61,15 +64,18 @@ var czml = [{
             "cartesian2" : [20, 0]
         },
         "style" : "FILL_AND_OUTLINE",
-        "text" : "Burst Location"
+        "text" : "{{flight.id}}"
     },
     "position" : {
-        "cartographicDegrees" : [ -93.31189999999847,42.35079999999925, 6700]
+        "cartographicDegrees" : [ {{flight.lon}},{{flight.lat}}, {{flight.alt}}]
 
 
         
     }
-}];
+},
+{% endfor %}
+    
+];
 
 var viewer = new Cesium.Viewer('cesiumContainer');
 var dataSourcePromise = Cesium.CzmlDataSource.load(czml);

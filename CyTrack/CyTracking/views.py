@@ -7,13 +7,19 @@ import time
 
 def maps(request):
     flights = singleFlight.objects.all().order_by('-flightDate')[:20]
+    toDisplay = []
     for flight in flights:
-        
+        flightinfo = {}
         if isinstance(flight.flightPositionData,list):
             if isinstance(flight.flightPositionData[-1], list):
-                print(flight.IDs)
-                print(flight.flightPositionData[-1])
-    return render(request, 'CyTrack/mainTracking.html')
+                lastPos = flight.flightPositionData[-1]
+                flightinfo["id"] = flight.IDs
+                flightinfo["lat"] = lastPos[2]
+                flightinfo["lon"] = lastPos[3]
+                flightinfo["alt"] = lastPos[4]
+                toDisplay.append(flightinfo)
+    print(toDisplay)  
+    return render(request, 'CyTrack/mainTracking.html', {"dat":toDisplay})
 
 def flight(request, uuid):
     flightID = uuid
