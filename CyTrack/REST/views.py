@@ -34,17 +34,18 @@ def AddFlightData(request):
     data = {}
     try:
         flight = singleFlight.objects.get(IDs = flightID)
-        print(flight)
-        print(flight.IDs)
+        print("dataAdded: "+flight.dataAdded)
         try:
-            if flight.dataAdded == "False":
+            if flight.dataAdded == 'False':
                 flight.flightPositionData.append([scriptID, time, lat, lon, alt, rssi])
-                flight.dataAdded == "True"
+                flight.dataAdded = 'True'
+                flight.save()
             else:
                 flight.flightPositionData = [[scriptID, time, lat, lon, alt, rssi]]
+                
         except:
             flight.flightPositionData = [[scriptID, time, lat, lon, alt, rssi]]
-            flight.dataAdded == "True"
+            flight.dataAdded = 'True'
             data = {'response': 'flight data wasnt set yet'}
             flight.save()
             return JsonResponse(data)
@@ -82,30 +83,30 @@ def AddFlightJsonData(request):
     return JsonResponse(data)
 
 
-@csrf_exempt 
-def AddFlightData(request):
-    scriptID = str(request.POST.get('scriptID'))
-    flightID = str(request.POST.get('flightID'))
-    time = str(request.POST.get('time'))
-    lat = str(request.POST.get('lat'))
-    lon = str(request.POST.get('lon'))
-    alt = str(request.POST.get('alt'))
-    rssi = str(request.POST.get('rssi'))
-    print(rssi)
-    data = {}
-    try:
-        flight = singleFlight.objects.get(IDs = flightID)
-        print(flight)
-        print(flight.IDs)
-        if flight.flightPositionData[0][0] == "":
-            flight.flightPositionData.append([scriptID, time, lat, lon, alt, rssi])
-        else:
-            flight.flightPositionData = [[scriptID, time, lat, lon, alt, rssi]]
-        flight.save()
-        data = {'response': 'acepted'}
-    except:
-        data = {'response': 'REJECTED'}
-    return JsonResponse(data)
+#@csrf_exempt 
+#def AddFlightData(request):
+#    scriptID = str(request.POST.get('scriptID'))
+#    flightID = str(request.POST.get('flightID'))
+#    time = str(request.POST.get('time'))
+#    lat = str(request.POST.get('lat'))
+#    lon = str(request.POST.get('lon'))
+#    alt = str(request.POST.get('alt'))
+#    rssi = str(request.POST.get('rssi'))
+#    print(rssi)
+#    data = {}
+#    try:
+#        flight = singleFlight.objects.get(IDs = flightID)
+#        print(flight)
+#        print(flight.IDs)
+#        if flight.flightPositionData[0][0] == "":
+#            flight.flightPositionData.append([scriptID, time, lat, lon, alt, rssi])
+#        else:
+#            flight.flightPositionData = [[scriptID, time, lat, lon, alt, rssi]]
+#        flight.save()
+#        data = {'response': 'acepted'}
+#    except:
+#        data = {'response': 'REJECTED'}
+#    return JsonResponse(data)
 
 
 @csrf_exempt 

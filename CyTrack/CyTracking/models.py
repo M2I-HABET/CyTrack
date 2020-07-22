@@ -7,7 +7,7 @@ from datetime import datetime
 
 class singleFlight(models.Model):
     IDs = models.CharField(max_length=36, blank=False, default = 0)
-    dataAdded = models.CharField(max_length=10,blank=False,default = "True")
+    dataAdded = models.CharField(max_length=10,blank=False, default = "True")
     #Desc = models.CharField(max_length=50, blank=True, default = "Old Flight Data")
     flightDate = models.DateTimeField(default=datetime.now(),null=True, blank=True)
     flightPositionData = ArrayField(
