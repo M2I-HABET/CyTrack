@@ -16,7 +16,7 @@ def newFlight(request):
     print(flightID)
     scriptID = uuid.uuid4()
     print(scriptID)
-    flight = singleFlight(IDs = flightID, flightPositionData = [["","","","","",""]])
+    flight = singleFlight(IDs = flightID, flightPositionData = [["","","","","",""]], dataAdded = 'False')
     flight.save()
     data = {'flightID': flightID, 'scriptID': scriptID}
     return JsonResponse(data)
@@ -36,10 +36,18 @@ def AddFlightData(request):
         flight = singleFlight.objects.get(IDs = flightID)
         print(flight)
         print(flight.IDs)
-        if flight.flightPositionData[0][0] == "":
-            flight.flightPositionData.append([scriptID, time, lat, lon, alt, rssi])
-        else:
+        try:
+            if flight.dataAdded == "False":
+                flight.flightPositionData.append([scriptID, time, lat, lon, alt, rssi])
+                flight.dataAdded == "True"
+            else:
+                flight.flightPositionData = [[scriptID, time, lat, lon, alt, rssi]]
+        except:
             flight.flightPositionData = [[scriptID, time, lat, lon, alt, rssi]]
+            flight.dataAdded == "True"
+            data = {'response': 'flight data wasnt set yet'}
+            flight.save()
+            return JsonResponse(data)
         flight.save()
         data = {'response': 'acepted'}
     except:
