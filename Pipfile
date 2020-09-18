@@ -12,7 +12,6 @@ numpy = "*"
 geopy = "*"
 psycopg2 = "*"
 geocoder = "*"
-pandas = "*"
 
 [requires]
 python_version = "3.*"
